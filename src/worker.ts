@@ -44,7 +44,7 @@ export default {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                 },
-              }
+              },
             )
           }
           return new Response(
@@ -57,7 +57,7 @@ export default {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
-            }
+            },
           )
         } catch (err) {
           console.error(`KV returned error: ${err}`)
@@ -70,7 +70,7 @@ export default {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
-            }
+            },
           )
         }
       },
@@ -92,7 +92,7 @@ export default {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                 },
-              }
+              },
             )
           }
           return new Response(
@@ -104,7 +104,7 @@ export default {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
-            }
+            },
           )
         } catch (err) {
           console.error(`KV returned error: ${err}`)
@@ -117,7 +117,7 @@ export default {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
-            }
+            },
           )
         }
       },
@@ -138,14 +138,14 @@ export default {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                 },
-              }
+              },
             )
           } else {
             const json = JSON.parse(value)
 
             await env.YELBOLT_AUTH_KV.delete(`TOKENS_${passkey}`)
             await env.YELBOLT_AUTH_KV.delete(`PASSKEY_${distinctId}`)
-            
+
             return new Response(
               JSON.stringify({
                 tokens: json,
@@ -156,7 +156,7 @@ export default {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                 },
-              }
+              },
             )
           }
         } catch (err) {
@@ -170,7 +170,7 @@ export default {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
-            }
+            },
           )
         }
       },
