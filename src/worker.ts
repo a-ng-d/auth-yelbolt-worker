@@ -9,6 +9,14 @@ export interface Env {
   YELBOLT_AUTH_KV: KVNamespace
 }
 
+// Fonction utilitaire pour les headers communs
+function getHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    ...extraHeaders,
+  }
+}
+
 export default {
   async fetch(request, env, ctx): Promise<Response> {
     const type = request.headers.get('type')
@@ -17,11 +25,10 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
+        headers: getHeaders({
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, distinct-id, passkey, tokens, baggage, type, sentry-trace',
-        },
+        }),
       })
     }
 
@@ -41,9 +48,7 @@ export default {
               }) as BodyInit,
               {
                 status: 404,
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                },
+                headers: getHeaders(),
               },
             )
           }
@@ -54,9 +59,7 @@ export default {
             }) as BodyInit,
             {
               status: 200,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
+              headers: getHeaders(),
             },
           )
         } catch (err) {
@@ -67,9 +70,7 @@ export default {
             }) as BodyInit,
             {
               status: 500,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
+              headers: getHeaders(),
             },
           )
         }
@@ -89,9 +90,7 @@ export default {
               }) as BodyInit,
               {
                 status: 404,
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                },
+                headers: getHeaders(),
               },
             )
           }
@@ -101,9 +100,7 @@ export default {
             }) as BodyInit,
             {
               status: 200,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
+              headers: getHeaders(),
             },
           )
         } catch (err) {
@@ -114,9 +111,7 @@ export default {
             }) as BodyInit,
             {
               status: 500,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
+              headers: getHeaders(),
             },
           )
         }
@@ -135,9 +130,7 @@ export default {
               }) as BodyInit,
               {
                 status: 200,
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                },
+                headers: getHeaders(),
               },
             )
           } else {
@@ -153,9 +146,7 @@ export default {
               }) as BodyInit,
               {
                 status: 200,
-                headers: {
-                  'Access-Control-Allow-Origin': '*',
-                },
+                headers: getHeaders(),
               },
             )
           }
@@ -167,9 +158,7 @@ export default {
             }) as BodyInit,
             {
               status: 500,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
+              headers: getHeaders(),
             },
           )
         }
