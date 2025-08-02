@@ -6,7 +6,7 @@
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
-    "start:8787": "wrangler dev --port 8787",
+    "start:8787": "wrangler dev --port 8787 --inspector-port 9228",
     "format": "prettier --check .",
     "format:fix": "prettier --write ."
   },
