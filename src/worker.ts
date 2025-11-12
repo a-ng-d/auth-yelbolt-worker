@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import { ExportedHandler, KVNamespace } from '@cloudflare/workers-types'
+import { KVNamespace, ExecutionContext } from '@cloudflare/workers-types'
 
 export interface Env {
   YELBOLT_AUTH_KV: KVNamespace
@@ -9,8 +9,7 @@ export interface Env {
   YELBOLT_AUTH_KV: KVNamespace
 }
 
-// Fonction utilitaire pour les headers communs
-function getHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
+const getHeaders = (extraHeaders: Record<string, string> = {}): Record<string, string> => {
   return {
     'Access-Control-Allow-Origin': '*',
     ...extraHeaders,
@@ -18,10 +17,9 @@ function getHeaders(extraHeaders: Record<string, string> = {}): Record<string, s
 }
 
 export default {
-  async fetch(request, env, ctx): Promise<Response> {
-    const type = request.headers.get('type')
+  async fetch(request: Request, env: Env, _: ExecutionContext): Promise<Response> {
+    const type = request.headers.get('type') as keyof typeof actions | null
 
-    // Handle CORS preflight requests
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
@@ -122,6 +120,7 @@ export default {
 
         try {
           const value = await env.YELBOLT_AUTH_KV.get(`TOKENS_${passkey}`)
+          await env.YELBOLT_AUTH_KV.delete(`PASSKEY_${distinctId}`)
 
           if (value === null) {
             return new Response(
@@ -137,7 +136,6 @@ export default {
             const json = JSON.parse(value)
 
             await env.YELBOLT_AUTH_KV.delete(`TOKENS_${passkey}`)
-            await env.YELBOLT_AUTH_KV.delete(`PASSKEY_${distinctId}`)
 
             return new Response(
               JSON.stringify({
@@ -165,7 +163,7 @@ export default {
       },
     }
 
-    if (type && actions[type]) {
+    if (type && type in actions) {
       return actions[type]()
     }
 
