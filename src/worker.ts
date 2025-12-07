@@ -2,11 +2,11 @@ import CryptoJS from 'crypto-js'
 import { KVNamespace, ExecutionContext } from '@cloudflare/workers-types'
 
 export interface Env {
-  YELBOLT_AUTH_KV: KVNamespace
+  YELBOLT_KV: KVNamespace
 }
 
 export interface Env {
-  YELBOLT_AUTH_KV: KVNamespace
+  YELBOLT_KV: KVNamespace
 }
 
 const getHeaders = (extraHeaders: Record<string, string> = {}): Record<string, string> => {
@@ -37,8 +37,8 @@ export default {
           distinctId = request.headers.get('distinct-id')
 
         try {
-          await env.YELBOLT_AUTH_KV.put(`PASSKEY_${distinctId}`, key)
-          const value = await env.YELBOLT_AUTH_KV.get(`PASSKEY_${distinctId}`)
+          await env.YELBOLT_KV.put(`PASSKEY_${distinctId}`, key)
+          const value = await env.YELBOLT_KV.get(`PASSKEY_${distinctId}`)
 
           if (value === null) {
             return new Response(
@@ -79,8 +79,8 @@ export default {
           passkey = request.headers.get('passkey')
 
         try {
-          await env.YELBOLT_AUTH_KV.put(`TOKENS_${passkey}`, tokens)
-          const value = await env.YELBOLT_AUTH_KV.get(`TOKENS_${passkey}`)
+          await env.YELBOLT_KV.put(`TOKENS_${passkey}`, tokens)
+          const value = await env.YELBOLT_KV.get(`TOKENS_${passkey}`)
 
           if (value === null) {
             return new Response(
@@ -120,8 +120,8 @@ export default {
           passkey = request.headers.get('passkey')
 
         try {
-          const value = await env.YELBOLT_AUTH_KV.get(`TOKENS_${passkey}`)
-          await env.YELBOLT_AUTH_KV.delete(`PASSKEY_${distinctId}`)
+          const value = await env.YELBOLT_KV.get(`TOKENS_${passkey}`)
+          await env.YELBOLT_KV.delete(`PASSKEY_${distinctId}`)
 
           if (value === null) {
             return new Response(
@@ -136,7 +136,7 @@ export default {
           } else {
             const json = JSON.parse(value)
 
-            await env.YELBOLT_AUTH_KV.delete(`TOKENS_${passkey}`)
+            await env.YELBOLT_KV.delete(`TOKENS_${passkey}`)
 
             return new Response(
               JSON.stringify({

@@ -4,5 +4,5 @@ compatibility_date = "2024-08-27"
 workers_dev = true
 nodejs_compat = true
 kv_namespaces = [
-    { binding = "YELBOLT_AUTH_KV", id = "29b4f175524147feb0ca8fa242ee374d" }
+    { binding = "YELBOLT_KV", id = "d9af118fa8fb4016b7d59811f3568d36" }
 ]
