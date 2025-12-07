@@ -18,7 +18,8 @@ const getHeaders = (extraHeaders: Record<string, string> = {}): Record<string, s
 
 export default {
   async fetch(request: Request, env: Env, _: ExecutionContext): Promise<Response> {
-    const type = request.headers.get('type') as keyof typeof actions | null
+    const url = new URL(request.url)
+    const path = url.pathname
 
     if (request.method === 'OPTIONS') {
       return new Response(null, {
@@ -163,8 +164,12 @@ export default {
       },
     }
 
-    if (type && type in actions) {
-      return actions[type]()
+    if (path === '/passkey' && request.method === 'GET') {
+      return actions.GET_PASSKEY()
+    } else if (path === '/tokens' && request.method === 'POST') {
+      return actions.SEND_TOKENS()
+    } else if (path === '/tokens' && request.method === 'GET') {
+      return actions.GET_TOKENS()
     }
 
     return new Response('Invalid action type', {
