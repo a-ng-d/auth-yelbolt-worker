@@ -76,7 +76,7 @@ export default {
       },
       SEND_TOKENS: async () => {
         const tokens = request.headers.get('tokens') ?? '',
-          passkey = request.headers.get('passkey')
+          passkey = url.searchParams.get('passkey')
 
         try {
           await env.YELBOLT_KV.put(`TOKENS_${passkey}`, tokens)
@@ -117,7 +117,7 @@ export default {
       },
       GET_TOKENS: async () => {
         const distinctId = request.headers.get('distinct-id') ?? '',
-          passkey = request.headers.get('passkey')
+          passkey = url.searchParams.get('passkey')
 
         try {
           const value = await env.YELBOLT_KV.get(`TOKENS_${passkey}`)
