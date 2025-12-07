@@ -38,22 +38,10 @@ export default {
 
         try {
           await env.YELBOLT_KV.put(`PASSKEY_${distinctId}`, key)
-          const value = await env.YELBOLT_KV.get(`PASSKEY_${distinctId}`)
 
-          if (value === null) {
-            return new Response(
-              JSON.stringify({
-                message: 'Passkey not found',
-              }) as BodyInit,
-              {
-                status: 404,
-                headers: getHeaders(),
-              },
-            )
-          }
           return new Response(
             JSON.stringify({
-              passkey: value,
+              passkey: key,
               message: 'Passkey generated',
             }) as BodyInit,
             {
