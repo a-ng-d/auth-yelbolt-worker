@@ -33,12 +33,8 @@ export default {
 
     const actions = {
       GET_PASSKEY: async () => {
-        const key = CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
-          distinctId = request.headers.get('distinct-id')
-
+        const key = CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex)
         try {
-          await env.YELBOLT_KV.put(`PASSKEY_${distinctId}`, key)
-
           return new Response(
             JSON.stringify({
               passkey: key,
@@ -63,8 +59,8 @@ export default {
         }
       },
       SEND_TOKENS: async () => {
-        const tokens = request.headers.get('tokens') ?? '',
-          passkey = url.searchParams.get('passkey')
+        const tokens = request.headers.get('tokens') ?? ''
+        const passkey = url.searchParams.get('passkey')
 
         try {
           await env.YELBOLT_KV.put(`TOKENS_${passkey}`, tokens)
@@ -104,12 +100,11 @@ export default {
         }
       },
       GET_TOKENS: async () => {
-        const distinctId = request.headers.get('distinct-id') ?? '',
-          passkey = url.searchParams.get('passkey')
+        const passkey = url.searchParams.get('passkey')
 
         try {
           const value = await env.YELBOLT_KV.get(`TOKENS_${passkey}`)
-          await env.YELBOLT_KV.delete(`PASSKEY_${distinctId}`)
+          await env.YELBOLT_KV.delete(`TOKENS_${passkey}`)
 
           if (value === null) {
             return new Response(
@@ -123,8 +118,6 @@ export default {
             )
           } else {
             const json = JSON.parse(value)
-
-            await env.YELBOLT_KV.delete(`TOKENS_${passkey}`)
 
             return new Response(
               JSON.stringify({
