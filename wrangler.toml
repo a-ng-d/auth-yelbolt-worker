@@ -6,3 +6,15 @@ nodejs_compat = true
 kv_namespaces = [
     { binding = "YELBOLT_KV", id = "d9af118fa8fb4016b7d59811f3568d36" }
 ]
+
+[observability]
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
