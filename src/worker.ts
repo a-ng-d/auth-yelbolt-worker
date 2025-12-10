@@ -5,10 +5,6 @@ export interface Env {
   YELBOLT_KV: KVNamespace
 }
 
-export interface Env {
-  YELBOLT_KV: KVNamespace
-}
-
 const getHeaders = (extraHeaders: Record<string, string> = {}): Record<string, string> => {
   return {
     'Access-Control-Allow-Origin': '*',
@@ -101,7 +97,7 @@ export default {
       },
       GET_TOKENS: async () => {
         const passkey = url.searchParams.get('passkey')
-        
+
         console.log('GET_TOKENS - passkey:', passkey)
         console.log('GET_TOKENS - looking for key:', `TOKENS_${passkey}`)
 
