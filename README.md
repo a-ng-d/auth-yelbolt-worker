@@ -16,6 +16,7 @@ This worker implements a secure passkey-based authentication flow using Cloudfla
 Generates a new random passkey for authentication.
 
 **Response:**
+
 ```json
 {
   "passkey": "339e4eee6720573a14228fb0fc180c1f5f7030cb3eaed20cfc11db651a6e2916",
@@ -28,12 +29,15 @@ Generates a new random passkey for authentication.
 Stores authentication tokens associated with a passkey.
 
 **Query Parameters:**
+
 - `passkey` (required): The passkey generated from `/passkey` endpoint
 
 **Headers:**
+
 - `tokens` (required): JSON string containing the authentication tokens
 
 **Response:**
+
 ```json
 {
   "message": "Tokens written"
@@ -45,17 +49,22 @@ Stores authentication tokens associated with a passkey.
 Retrieves and deletes tokens associated with a passkey (one-time use).
 
 **Query Parameters:**
+
 - `passkey` (required): The passkey used to store the tokens
 
 **Response (success):**
+
 ```json
 {
-  "tokens": { /* your token data */ },
+  "tokens": {
+    /* your token data */
+  },
   "message": "Tokens found"
 }
 ```
 
 **Response (not found):**
+
 ```json
 {
   "message": "No token found"
