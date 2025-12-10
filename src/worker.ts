@@ -98,13 +98,8 @@ export default {
       GET_TOKENS: async () => {
         const passkey = url.searchParams.get('passkey')
 
-        console.log('GET_TOKENS - passkey:', passkey)
-        console.log('GET_TOKENS - looking for key:', `TOKENS_${passkey}`)
-
         try {
           const value = await env.YELBOLT_KV.get(`TOKENS_${passkey}`)
-
-          console.log('GET_TOKENS - value found:', value !== null ? 'YES' : 'NO')
 
           if (value === null) {
             return new Response(
