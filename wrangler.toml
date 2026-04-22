@@ -7,6 +7,9 @@ kv_namespaces = [
     { binding = "YELBOLT_KV", id = "d9af118fa8fb4016b7d59811f3568d36" }
 ]
 
+[vars]
+CONSENT_UI_URL = "https://auth.ui-color-palette.com"
+
 [observability]
 [observability.logs]
 enabled = true
